@@ -6,6 +6,8 @@ R-like pipe functionality for Python using the `>>` operator.
 
 ```bash
 pip install git+https://github.com/priscian/rpipe.git
+# Or to force reinstallation:
+pip install --force-reinstall --no-cache-dir git+https://github.com/priscian/rpipe.git
 ```
 
 Or install from source:

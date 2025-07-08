@@ -36,10 +36,11 @@ def main():
     # Thread-last example
     result = TL(
         2,
-        (pow, 3),      # pow(3, 2) = 9
-        (str.rjust, 5, '0')  # "00009"
+        (pow, 3),            # pow(3, 2) = 9
+        str,                 # "9"
+        (lambda s: s.rjust(5, '0'))  # "00009"
     )
-    print(f"TL(2, (pow, 3), (str.rjust, 5, '0')) = {result}")
+    print(f"TL(2, (pow, 3), str, rjust) = {result}")
 
     print("\n=== Using functools.partial ===\n")
 
@@ -85,10 +86,11 @@ def main():
     print(f"Style 2 (pipe): {result2}")
 
     # Style 3: Using thread-first
+    # For TF, we need to be careful with functions that return iterators
     result3 = TF(
         numbers,
-        (map, lambda x: x * 2),
-        list,
+        (partial(map, lambda x: x * 2),),  # Returns map object
+        list,                              # Convert map object to list
         sum
     )
     print(f"Style 3 (TF): {result3}")
@@ -158,12 +160,11 @@ def main():
     # First, use pipe to get even numbers
     evens = pipe(data, partial(filter, lambda x: x % 2 == 0), list)
 
-    # Then use TF to process them
-    processed = TF(
-        evens,
-        (map, lambda x: x ** 2),
+    # Then process them with >>
+    processed = evens >> P(
+        partial(map, lambda x: x ** 2),
         list,
-        (sorted, True)  # reverse=True
+        lambda x: sorted(x, reverse=True)
     )
 
     # Finally use >> to get the result
