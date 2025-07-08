@@ -5,7 +5,7 @@ R-like pipe functionality for Python using the `>>` operator.
 ## Installation
 
 ```bash
-pip install rpipe
+pip install git+https://github.com/priscian/rpipe.git
 ```
 
 Or install from source:

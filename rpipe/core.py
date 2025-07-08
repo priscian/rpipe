@@ -31,21 +31,33 @@ class PipeClass:
             elif len(other) == 1:
                 # Single element tuple
                 if self.funcs:
-                    return toolz.pipe(other[0], *self.funcs)
+                    return self._apply_funcs(other[0])
                 else:
                     return other[0]
             else:
                 # Multiple elements tuple
                 if self.funcs:
-                    return toolz.pipe(*other, *self.funcs)
+                    return self._apply_funcs(toolz.pipe(*other))
                 else:
                     return toolz.pipe(*other)
         else:
             # Single value (not a tuple)
             if self.funcs:
-                return toolz.pipe(other, *self.funcs)
+                return self._apply_funcs(other)
             else:
                 return other
+
+    def _apply_funcs(self, data):
+        """Apply the stored functions to data, handling nested PipeClass instances."""
+        result = data
+        for func in self.funcs:
+            if isinstance(func, PipeClass):
+                # If it's a PipeClass, apply its functions
+                result = func._apply_funcs(result)
+            else:
+                # Regular function
+                result = func(result)
+        return result
 
 
 # Create the P instance
