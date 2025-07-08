@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rpipe"
+version = "0.1.0"
+description = "R-like pipe functionality for Python using the >> operator"
+readme = "README.md"
+authors = [
+    {name = "Jim Java", email = "james.j.java@gmail.com"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "toolz>=0.12.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/priscian/rpipe"
+"Bug Tracker" = "https://github.com/priscian/rpipe/issues"
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
